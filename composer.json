@@ -1,0 +1,30 @@
+{
+    "name": "eyes360/voom-crm-integration-client",
+    "type": "library",
+    "version": "0.0.1",
+    "autoload": {
+        "psr-4": {
+            "Eyes360\\VoomCrmIntegrationClient\\": "src/",
+            "Tests\\" : "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Raghed Kahil",
+            "email": "kahilraghed@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=6.0",
+        "guzzlehttp/guzzle": "^6.5",
+        "ramsey/uuid": "^3.9"
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
