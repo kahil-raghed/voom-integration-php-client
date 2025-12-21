@@ -1,6 +1,6 @@
 <?php
 
-namespace Eyes360\VoomCrmIntegrationClient;
+namespace Eyes360\VoomIntegrationSdk;
 
 use Ramsey\Uuid\Uuid;
 

@@ -1,10 +1,11 @@
 <?php
 
-namespace Eyes360\VoomCrmIntegrationClient;
+namespace Eyes360\VoomIntegrationSdk;
 
-class UnitHelper
+class Unit
 {
-    public static function createUnit(
+    private function __construct() {}
+    public static function make(
         string $unit_id,
         string $tenant_id,
         string $project_id,

@@ -1,10 +1,10 @@
 {
-    "name": "eyes360/voom-crm-integration-client",
+    "name": "eyes360/voom-integration-sdk",
     "type": "library",
     "version": "0.0.1",
     "autoload": {
         "psr-4": {
-            "Eyes360\\VoomCrmIntegrationClient\\": "src/",
+            "Eyes360\\VoomIntegrationSdk\\": "src/",
             "Tests\\" : "tests/"
         }
     },
