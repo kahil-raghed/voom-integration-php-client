@@ -1,7 +1,8 @@
 {
     "name": "eyes360/voom-integration-sdk",
+    "description": "Sdk for integrationg with voom systems",
     "type": "library",
-    "version": "0.0.1",
+    "license": "Apache-2.0",
     "autoload": {
         "psr-4": {
             "Eyes360\\VoomIntegrationSdk\\": "src/",
