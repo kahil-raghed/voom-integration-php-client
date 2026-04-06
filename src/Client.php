@@ -115,6 +115,6 @@ class Client
 
     public function getUnits(): array
     {
-        return $this->callApi('POST', self::API_GET_UNITS);
+        return $this->callApi('POST', self::API_GET_UNITS , ['page' => 1]);
     }
 }
