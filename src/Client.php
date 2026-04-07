@@ -12,6 +12,10 @@ class Client
     const API_HELLO = '/api/client-api/v1/hello';
     const API_BULK_PUSH = '/api/client-api/v1/inventory/bulk-push';
     const API_GET_UNITS = '/api/client-api/v1/inventory/get-units';
+    
+    // public static function API_UPDATE_UNIT($unitId) {
+    //     return '/api/client-api/v1/inventory/update-unit/' . $unitId;
+    // }
 
     protected $baseUrl = Client::DEFAULT_BASE_URL;
     protected $clientId;
@@ -117,4 +121,9 @@ class Client
     {
         return $this->callApi('POST', self::API_GET_UNITS , ['page' => 1]);
     }
+
+    // public function updateUnit(string $unitId, array $data): array
+    // {
+    //     return $this->callApi('POST', self::API_UPDATE_UNIT($unitId), $data);
+    // }
 }
