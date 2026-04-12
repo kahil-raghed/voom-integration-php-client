@@ -13,25 +13,19 @@ class Client
     const API_BULK_PUSH = '/api/client-api/v1/inventory/bulk-push';
     const API_GET_UNITS = '/api/client-api/v1/inventory/get-units';
     
-    // public static function API_UPDATE_UNIT($unitId) {
-    //     return '/api/client-api/v1/inventory/update-unit/' . $unitId;
-    // }
 
     protected $baseUrl = Client::DEFAULT_BASE_URL;
     protected $clientId;
     protected $clientSecret;
-    protected $basicAuth;
     protected $isBasicAuthEnabled = false;
     protected $guzzle;
 
     public function __construct(
         string $clientId,
-        string $clientSecret,
-        ?array $basicAuth = null
+        string $clientSecret
     ) {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
-        $this->basicAuth = $basicAuth;
         $this->guzzle = new \GuzzleHttp\Client();
     }
 
@@ -47,9 +41,6 @@ class Client
 
     public function useBasicAuth(bool $enable = true): void
     {
-        if ($enable && !$this->basicAuth) {
-            throw new \Exception('Basic Auth credentials must be provided in the constructor to enable it.');
-        }
         $this->isBasicAuthEnabled = $enable;
     }
 
@@ -89,8 +80,8 @@ class Client
             $headers['X-Request-Signature'] = $signature;
         }
 
-        if ($this->isBasicAuthEnabled && $this->basicAuth) {
-            $options['auth'] = [$this->basicAuth['username'] ?? '', $this->basicAuth['password'] ?? ''];
+        if ($this->isBasicAuthEnabled) {
+            $options['auth'] = [$this->clientId, $this->clientSecret];
         }
 
         if (!empty($headers)) {
@@ -122,8 +113,5 @@ class Client
         return $this->callApi('POST', self::API_GET_UNITS , ['page' => 1]);
     }
 
-    // public function updateUnit(string $unitId, array $data): array
-    // {
-    //     return $this->callApi('POST', self::API_UPDATE_UNIT($unitId), $data);
-    // }
+  
 }

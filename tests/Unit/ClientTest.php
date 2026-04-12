@@ -9,8 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
 beforeEach(function () {
-    $this->basicAuth = ['username' => 'test-user', 'password' => 'test-password'];
-    $this->client = new Client('test-id', 'test-secret', $this->basicAuth);
+    $this->client = new Client('test-id', 'test-secret');
     
     // We use Guzzle MockHandler to mock outgoing requests without hitting an actual API
     $this->mockHandler = new MockHandler();
@@ -155,7 +154,7 @@ test('it should use basic auth when enabled and omit HMAC headers', function () 
     expect($request->hasHeader('X-Request-Time'))->toBeFalse();
     expect($request->hasHeader('X-Request-Signature'))->toBeFalse();
     
-    expect($options['auth'])->toBe(['test-user', 'test-password']);
+    expect($options['auth'])->toBe(['test-id', 'test-secret']);
 });
 
 test('it should use basic auth for get-units when enabled', function () {
@@ -177,5 +176,5 @@ test('it should use basic auth for get-units when enabled', function () {
     $options = $transaction['options'];
     
     expect($request->hasHeader('X-Client-Id'))->toBeFalse();
-    expect($options['auth'])->toBe(['test-user', 'test-password']);
+    expect($options['auth'])->toBe(['test-id', 'test-secret']);
 });

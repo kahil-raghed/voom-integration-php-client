@@ -4,8 +4,8 @@ use Eyes360\VoomIntegrationSdk\Client;
 
 beforeEach(function () {
     // Using credentials from previous conversations for valid E2E testing
-    $clientId = 'cid_019a7871-975e-7763-b7ae-cd8aeb488326';
-    $clientSecret = 'G7Z5WOZONVYS7WUX6NTY4NNFH7';
+    $clientId = 'test client';
+    $clientSecret = 'test secret';
     
     $this->client = new Client($clientId, $clientSecret);
 });
