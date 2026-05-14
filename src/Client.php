@@ -12,11 +12,12 @@ class Client
     const API_HELLO = '/api/client-api/v1/hello';
     const API_BULK_PUSH = '/api/client-api/v1/inventory/bulk-push';
     const API_GET_UNITS = '/api/client-api/v1/inventory/get-units';
+    
 
     protected $baseUrl = Client::DEFAULT_BASE_URL;
     protected $clientId;
     protected $clientSecret;
-
+    protected $isBasicAuthEnabled = false;
     protected $guzzle;
 
     public function __construct(
@@ -38,6 +39,11 @@ class Client
         $this->baseUrl = $baseUrl;
     }
 
+    public function useBasicAuth(bool $enable = true): void
+    {
+        $this->isBasicAuthEnabled = $enable;
+    }
+
     public function generateApiSignature(
         string $clientID,
         string $requestId,
@@ -52,12 +58,14 @@ class Client
 
     public function callApi(string $method, string $path, array|null $data = null): array
     {
+        $headers = [];
+        $options = ['json' => $data];
+
+        if (!$this->isBasicAuthEnabled) {
         $client_id = $this->clientId;
         $client_secret = $this->clientSecret;
         $request_id = Uuid::getFactory()->uuid4()->toString();
         $request_time_string = date(DATE_RFC3339);
-
-
 
         $signature = $this->generateApiSignature(
             $client_id,
@@ -66,15 +74,21 @@ class Client
             $client_secret
         );
 
-        $res = $this->guzzle->request($method, $this->baseUrl .  $path, [
-            'json' => $data,
-            'headers' => [
-                'X-Client-Id' => $client_id,
-                'X-Request-Id' => $request_id,
-                'X-Request-Time' => $request_time_string,
-                'X-Request-Signature' => $signature
-            ]
-        ]);
+            $headers['X-Client-Id'] = $client_id;
+            $headers['X-Request-Id'] = $request_id;
+            $headers['X-Request-Time'] = $request_time_string;
+            $headers['X-Request-Signature'] = $signature;
+        }
+
+        if ($this->isBasicAuthEnabled) {
+            $options['auth'] = [$this->clientId, $this->clientSecret];
+        }
+
+        if (!empty($headers)) {
+            $options['headers'] = $headers;
+        }
+
+        $res = $this->guzzle->request($method, $this->baseUrl .  $path, $options);
 
         return json_decode($res->getBody()->getContents(), true);
     }
@@ -96,6 +110,8 @@ class Client
 
     public function getUnits(): array
     {
-        return $this->callApi('POST', self::API_GET_UNITS);
+        return $this->callApi('POST', self::API_GET_UNITS , ['page' => 1]);
     }
+
+  
 }
